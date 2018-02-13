@@ -135,18 +135,60 @@ const
   const bjLine = d3.line()
     .x(d => d.month*9)
     .y(d => s4h - (d.hummers * 4))
-    .curve(d3.curveLinear);
+    .curve(d3.curveBasis);
 
-  const viz = svg4.append('path')
+  const s4viz = svg4.append('path')
     .attr('d', bjLine(s4data))
     .attr('stroke', '#444')
     .attr('stroke-width', 4)
     .attr('fill', 'none');
 
-  const labels = svg4.selectAll('text')
+  const s4labels = svg4.selectAll('text')
     .data(s4data)
     .enter()
     .append('text')
       .text(d => d.hummers)
       .attr('x', d => d.month*9 + 3)
       .attr('y', d => s4h - (d.hummers * 4) - 3);
+
+
+/**
+  LINE CHART EXAMPLE
+*/
+d3.select('body').append('h1').text('ScatterPlot').style('border-top', '1px solid #999');
+const
+  s5data = [
+    {month: 0, hummers: 0  },
+    {month: 4, hummers: 20  },
+    {month: 8, hummers: 25  },
+    {month: 12, hummers: 20 },
+    {month: 16, hummers: 6  },
+    {month: 20, hummers: 17 },
+    {month: 24, hummers: 12 },
+    {month: 28, hummers: 2  },
+    {month: 32, hummers: 15 },
+    {month: 36, hummers: 13 },
+    {month: 40, hummers: 6  },
+    {month: 44, hummers: 0  },
+    {month: 48, hummers: 0  },
+    {month: 52, hummers: 0  },
+    {month: 56, hummers: 0  },
+    {month: 60, hummers: 0  },
+  ],
+  s5w = Math.min(window.visualViewport.width, 665),
+  s5h = 175,
+  svg5 = d3.select('body').append('svg')
+                              .attr('height', s5h)
+                              .attr('width', s5w)
+                              .attr('id', 'svg5');
+  svg5.append('text').text('ScatterPlot of number of blowjobs per 3 month period over 5 years')
+      .attr('x', 15).attr('y', 35).style('fill', '#999').style('font-size', '1.5em');
+
+  const dots = svg5.selectAll('circle')
+    .data(s5data)
+    .enter()
+    .append('circle')
+      .attr('cx', d => d.month*9 + 3)
+      .attr('cy', d => s4h - (d.hummers * 4) - 5)
+      .attr('r', 5)
+      .attr('fill', d => d.hummers > 5 ? '#0F0' : '#F00');
